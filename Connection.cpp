@@ -9,9 +9,9 @@ bool Connection::init(){
 	if(WINDOWS){
 		int win_result;
 		WSADATA wsadat;
-		win_result = STARTDLL(&wsadat);
+		win_result = STARTDLL(&wsadat)
 		if(win_result != 0)
-			return -1;
+			return false;
 	}
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if(sock < 0){
