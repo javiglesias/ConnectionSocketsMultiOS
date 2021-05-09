@@ -1,0 +1,3 @@
+C:/Users/Alientech/Documents/Projects/C_plus_plus/ConnectionSocketsMultiOS/CMakeFiles/ConnSample.dir
+C:/Users/Alientech/Documents/Projects/C_plus_plus/ConnectionSocketsMultiOS/CMakeFiles/ALL_BUILD.dir
+C:/Users/Alientech/Documents/Projects/C_plus_plus/ConnectionSocketsMultiOS/CMakeFiles/ZERO_CHECK.dir

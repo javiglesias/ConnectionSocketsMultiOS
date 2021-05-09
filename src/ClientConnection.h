@@ -1,18 +1,16 @@
 #pragma once
-#ifndef C__CONNECTION_H
-#define C__CONNECTION_H
-/*this library is gonna provide the sockets connection for the Client*/
+#ifndef C__ClientConnection_H
+#define C__ClientConnection_H
+/*this library is gonna provide the sockets ClientConnection for the Client*/
 #include <string>
 #include "Definitions.hpp"
 
-class Connection{
+class ClientConnection{
 public:
-	Connection() {}
-	Connection(std::string _ip){ ip = _ip;};
-	Connection(std::string _ip, std::string _user, std::string _passwd);
-	~Connection(){}
+	ClientConnection() {}
+	~ClientConnection(){}
 	bool init();
-	void clean();
+	void Clean() const;
 	std::string codification(std::string user, std::string passw);
 
 private:
@@ -23,6 +21,6 @@ private:
 	struct sockaddr_in serv_addr;
 	struct hostent *server = NULL;
 	char buffer[250];
-	char c;
+	std::string c;
 };
 #endif

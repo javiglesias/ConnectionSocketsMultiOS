@@ -1,14 +1,7 @@
-#include "Connection.h"
+#include "ClientConnection.h"
 
-Connection::Connection(std::string _ip,std::string _user, std::string _passwd){
-	ip = _ip;
-	user = _user;
-	passwd = _passwd;
-}
-
-bool Connection::init(){
+bool ClientConnection::init(){
 	LOG("LAUNCHING IN CLIENT MODE (Press a key to continue)");
-	getchar();
 	if(WINDOWS){
 		int win_result;
 		WSADATA wsadat;
@@ -23,59 +16,51 @@ bool Connection::init(){
 	}
 	else
 		LOG("Socket creation Succesfull");
-	//server=gethostbyname(ip.c_str());
 	ZERO(serv_addr)
-	/*COPY((char *)&serv_addr.sin_addr.s_addr, (char *)server->h_addr,
-		server->h_length)*/
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(port);
 	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) < 0 )
 	{
 		ERR("Cant bind serv address on client!");
-		getchar();
-		return false;
-	}
-	if(connect(sock, (SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR)
-	{
-		ERR("Cant Connect!");
-		getchar();
-		CLEAR();
-		return false;
-	}
-	ZERO(buffer)
-	/*passwd = codification(passwd, user);	
-	if(SOCKSEND(sock, passwd.c_str(), 0) < 0){
-		ERR("Cannot send auth to server");
-		return false;
-	*/
-	while((c = getchar()) != 'X')
-	{
-		if (SOCKSEND(sock, &c, 0)>0)
-		{
-			LOG("Sending...");
-		}
-		
-	}
-	
-	/*else
-		LOG("auth sended to server");
-	n = SOCKREAD(sock, buffer, 255, 0);
-	if(n < 0){
-		ERR("Cant recieve from server.");
-		getchar();
 		return false;
 	}
 	else
-		LOG("Entering data....");*/
+		LOG("Bind creation Succesfull");
+	getchar();
+	if(connect(sock, (SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR)
+	{
+		ERR("Cant Connect!");
+		CLEAR();
+		return false;
+	}
+	else
+		LOG("ClientConnection creation Succesfull");
+	ZERO(buffer)
+	while(true)
+	{
+		while ((n = SOCKREAD(sock, buffer, 0)) > 0)
+		{
+			LOG(buffer);
+			std::cin >> c;
+			if (SOCKSEND(sock, c.c_str(), 0) == SOCKET_ERROR)
+			{
+				ERR("Error sending data.");
+				break;
+			}
+			n = -1;
+			ZERO(c)
+			ZERO(buffer)
+		}
+	}
 	LOG("EXITING IN CLIENT MODE (Press a key to continue)");
 	getchar();
 	return true;
 }
-void Connection::clean(){
+void ClientConnection::Clean() const{
 	CLEAR();
 	CLOSE(sock)
 }
-std::string Connection::codification(std::string msg, std::string key){
+std::string ClientConnection::codification(std::string msg, std::string key){
     // Make sure the key is at least as long as the message
     std::string tmp(key);
     while (key.size() < msg.size())
