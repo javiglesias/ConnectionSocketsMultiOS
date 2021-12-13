@@ -18,18 +18,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ServerConnection.cpp">
+    <ClCompile Include="src\Server\ServerConnection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Client\ClientConnection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ServerConnection.h">
+    <ClInclude Include="src\Server\ServerConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Client\ClientConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
