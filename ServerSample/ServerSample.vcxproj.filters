@@ -39,4 +39,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\resources\eagle1024%40protonmail.ch_0x985579E2_public.asc" />
+  </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #include "ServerConnection.h"
+#include <random>
 
 bool ServerConnection::init()
 {
@@ -35,6 +36,7 @@ bool ServerConnection::init()
 		ERR("Error Listening the addres/port");
 		return false;
 	}
+	srand(NULL);
 	while(true)
 	{
 		ZERO(read_fds);
@@ -68,19 +70,18 @@ bool ServerConnection::init()
 			}
 			LOG("Connection at");
 			LOG(new_socket);
-			SOCKSEND(new_socket, "Hola", 0);
+			SOCKSEND(new_socket, "Hola te saluda el servidor", 0);
 			ZERO(buffer)
 			while ((n = SOCKREAD(new_socket, buffer, 0)) > 0)
 			{
 				LOG(buffer);
-				SOCKSEND(new_socket, "Hola2", 0);
+				SOCKSEND(new_socket, m_answers[rand() % 5], 0);
 				ZERO(buffer)
 				n = -1;
 			}
 		}
 	}
 	LOG("EXITING IN SERVER MODE (Press a key to continue)");
-	getchar();
 	CLEAR();
 	return true;
 }

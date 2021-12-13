@@ -21,7 +21,8 @@ private:
 	SOCKET sock = 0, n = 0;
 	struct sockaddr_in serv_addr;
 	struct hostent *server = NULL;
-	char buffer[250];
+	char buffer[4096];
+	char out_buffer[4096];
 	std::string c;
 };
 #endif

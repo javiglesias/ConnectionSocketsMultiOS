@@ -18,14 +18,13 @@ bool ClientConnection::init(){
 	ZERO(serv_addr)
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(port);
-	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) < 0 )
+	if(inet_pton(AF_INET, ip.c_str(), &serv_addr.sin_addr) < 0)
 	{
 		ERR("Cant bind serv address on client!");
 		return false;
 	}
 	else
 		LOG("Bind creation Succesfull");
-	getchar();
 	if(connect(sock, (SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR)
 	{
 		ERR("Cant Connect!");
@@ -33,26 +32,27 @@ bool ClientConnection::init(){
 		return false;
 	}
 	else
-		LOG("ClientConnection creation Succesfull");
+		LOG("Client Connection creation Succesfull");
 	ZERO(buffer)
 	while(true)
 	{
 		while ((n = SOCKREAD(sock, buffer, 0)) > 0)
 		{
 			LOG(buffer);
-			std::cin >> c;
-			if (SOCKSEND(sock, c.c_str(), 0) == SOCKET_ERROR)
+			fprintf(stdout, "Write a message: ");
+			if (fscanf(stdin, "%s", &out_buffer))
 			{
-				ERR("Error sending data.");
-				break;
+				if (SOCKSEND(sock, out_buffer, 0) == SOCKET_ERROR)
+				{
+					ERR("Error sending data.");
+					break;
+				}
 			}
 			n = -1;
-			ZERO(c)
+			ZERO(out_buffer)
 			ZERO(buffer)
 		}
 	}
-	LOG("EXITING IN CLIENT MODE (Press a key to continue)");
-	getchar();
 	return true;
 }
 void ClientConnection::Clean() const{
